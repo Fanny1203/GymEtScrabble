@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Séquence d'exercices</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <audio id="bip" src="bip.mp3"></audio>
+    <audio id="cloche" src="ding.mp3"></audio>
+</head>
+<body>
+    <div id="page1" class="page active">
+        <h1>Configuration</h1>
+        <div class="form-container">
+            <div class="input-group">
+                <label for="lettres">Entrez 7 lettres ou * pour le joker :</label>
+                <input type="text" id="lettres" required>
+            </div>
+            <div class="input-group">
+                <label for="duree">Durée par exercice (en secondes) :</label>
+                <input type="number" id="duree" min="1" required>
+            </div>
+            <div class="input-group">
+                <label for="tempsPause">Temps de pause au départ (en secondes) :</label>
+                <input type="number" id="tempsPauseDepart" min="1" value="15" required>
+            </div>
+            <div class="input-group">
+                <label for="tempsPauseEntreExercices">Temps de pause entre exercices (en secondes) :</label>
+                <input type="number" id="tempsPauseEntreExercices" min="1" value="10" required>
+            </div>
+            <div class="input-group options-sonores">
+                <h3>Options sonores :</h3>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="avecBips" checked>
+                    Bips de décompte
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="avecCloche" checked>
+                    Cloche de fin
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="avecMusique">
+                    Musique aléatoire
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="avecOrdreAleatoire">
+                    Ordre des exercices aléatoire
+                </label>
+            </div>
+            <button onclick="page2()">Valider</button>
+        </div>
+    </div>
+
+    <div id="page2" class="page">
+        <h1>Séquence d'exercices</h1>
+        <div id="sequence-container"></div>
+        <div class="buttons-container">
+            <button onclick="retourParametrage()" class="button-secondary">Revenir au paramétrage</button>
+            <button onclick="page3()">Commencer</button>
+        </div>
+    </div>
+
+    <div id="page3" class="page">
+        <div class="exercice-container">
+            <div id="exercice-en-cours">
+                <h2 id="instruction-courante"></h2>
+                <div id="timer"></div>
+            </div>
+            <div class="liste-exercices">
+                <h3>Séquence complète</h3>
+                <div id="liste-instructions"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page4" class="page">
+        <h1 class="termine">TERMINÉ</h1>
+    </div>
+
+    <script src="sketch.js"></script>
+</body>
+</html>

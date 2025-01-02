@@ -1,0 +1,171 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.page {
+    display: none;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.page.active {
+    display: block;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.button-secondary {
+    background-color: #6c757d;
+}
+
+.button-secondary:hover {
+    background-color: #5a6268;
+}
+
+#sequence-container {
+    margin: 20px 0;
+}
+
+.sequence-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+}
+
+.exercice-container {
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#exercice-en-cours {
+    flex: 1;
+    text-align: center;
+    font-size: 24px;
+}
+
+.liste-exercices {
+    width: 300px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.liste-exercices h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.instruction-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.instruction-item.done {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.instruction-item.active {
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+}
+
+#timer {
+    font-size: 48px;
+    margin: 20px 0;
+}
+
+.termine {
+    font-size: 72px;
+    color: #4CAF50;
+    text-align: center;
+    margin-top: 40vh;
+    transform: translateY(-50%);
+}
+
+.options-sonores {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.options-sonores h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.checkbox-label {
+    display: block;
+    margin: 8px 0;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+}
