@@ -1,6 +1,6 @@
-# Séquenceur d'Exercices de Gainage
+# Scrabble et gainage !
 
-Une application web interactive pour créer et exécuter des séquences personnalisées d'exercices de gainage et de renforcement musculaire en lien avec un tirage de scrabble.
+Une application web interactive pour créer et exécuter des séquences personnalisées d'exercices de gym, type gainage, en lien avec un tirage de scrabble.
 
 ## Fonctionnalités
 
