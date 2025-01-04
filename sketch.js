@@ -1,5 +1,6 @@
 let instructions = {};
-let sequence = [];
+let sequenceLettres = [];
+let sequenceExercices = [];
 let dureeExercice = 0;
 let exerciceActuel = 0;
 let timer = 0;
@@ -23,37 +24,61 @@ function preload() {
 
 function setup() {
     noCanvas();
+    
+    // Initialize oscillator
+    osc = new p5.Oscillator('sine');
+    osc.amp(0.1);  // Set volume
+    osc.freq(440); // Standard A4 note frequency
+    osc.start();
+    osc.stop();
+}
+
+//pour des bips sans passer par le mp3
+let osc;
+function playBeep() {
+    // Increase volume (0.1 to 0.5)
+    osc.amp(0.5);
+    osc.freq(880);
+    osc.start();
+    setTimeout(() => {
+        osc.stop();
+    }, 150);  // Slightly longer beep duration
+    
 }
 
 function page2() {
-    console.log('Valider et passer à la page 2');
     let lettresInput = document.getElementById('lettres').value.toUpperCase();
     
-
-    /*if (!/^[A-Z*]+$/.test(lettresInput) || !dureeExercice) {
-        alert('Veuillez entrer des lettres valides (A-J) et une durée.');
-        return;
-    }*/
-
-    // Sauvegarder les options sonores
+    // Récupérer les options sonores
     optionsBips = document.getElementById('avecBips').checked;
     optionsCloche = document.getElementById('avecCloche').checked;
     optionsMusique = document.getElementById('avecMusique').checked;
     optionOrdreExercicesAleatoire = document.getElementById('avecOrdreAleatoire').checked;
 
     // Créer la séquence aléatoire si demandé
-    sequence = lettresInput.split('');
+    sequenceLettres = lettresInput.split('');
     if(optionOrdreExercicesAleatoire) {
-        shuffle(sequence, true);
+        shuffle(sequenceLettres, true);
     }
     
-    // Afficher la séquence
+    // Créer la séquence
+    for(lettre of sequenceLettres) {
+        let instructionCorrespondante = instructions[lettre];
+        if(instructionCorrespondante.startsWith('*')) {
+            sequenceExercices.push(instructionCorrespondante+' gauche');
+            sequenceExercices.push(instructionCorrespondante+' droite');
+        } else {
+            sequenceExercices.push(instructionCorrespondante);
+        }
+    }
+
+
     const container = document.getElementById('sequence-container');
     container.innerHTML = '';
-    sequence.forEach((lettre, index) => {
+    sequenceExercices.forEach((instruction, index) => {
         const div = document.createElement('div');
         div.className = 'sequence-item';
-        div.textContent = `${index + 1}. ${instructions[lettre]}`;
+        div.textContent = `${index + 1}. ${instruction}`;
         container.appendChild(div);
     });
     
@@ -75,15 +100,15 @@ function page3() {
     // Afficher la liste complète des exercices
     const listeContainer = document.getElementById('liste-instructions');
     listeContainer.innerHTML = '';
-    sequence.forEach((lettre, index) => {
+    sequenceExercices.forEach((instruction, index) => {
         const div = document.createElement('div');
         div.className = 'instruction-item';
         div.id = `instruction-${index}`;
-        div.textContent = `${index + 1}. ${instructions[lettre]}`;
+        div.textContent = `${index + 1}. ${instruction}`;
         listeContainer.appendChild(div);
     });
 
-    exerciceDansListe(-1);
+    exerciceDansListe(-1); // au départ, aucun exercice actif
 
     document.getElementById('instruction-courante').textContent = "Préparez-vous !  ";
     demarrerTimer();
@@ -110,14 +135,19 @@ function demarrerTimer() {
     }
     
     timerInterval = setInterval(() => {
-        // Jouer les sons
-        if (optionsBips && (timer === 3 || timer === 2 || timer === 1)) {
-            document.getElementById('bip').currentTime = 0;
-            document.getElementById('bip').play();
+        const timerElement = document.getElementById('timer');
+
+        // Jouer les sons et mettre en rouge le timer        
+        if (optionsBips && ( (timer === 3 || timer === 2 || timer === 1) || (!estPause && timer === Math.floor(dureeExercice / 2)))) {
+            playBeep();
+            timerElement.style.color = 'red';
         } else if (optionsCloche && timer === 0) {
             document.getElementById('cloche').currentTime = 0;
             document.getElementById('cloche').play();
+        } else {
+            timerElement.style.color = 'black';
         }
+            
         
         if (timer <= 0) {
             if (estPause) {
@@ -125,7 +155,7 @@ function demarrerTimer() {
                 exerciceDansListe(exerciceActuel);
                 timer = dureeExercice;
                 // afficher l'instruction courante
-                const instruction = instructions[sequence[exerciceActuel]];
+                const instruction = instructions[sequenceLettres[exerciceActuel]];
                 document.getElementById('instruction-courante').textContent = instruction;
                 
                 
@@ -136,14 +166,14 @@ function demarrerTimer() {
                 exerciceActuel++;
                 exerciceDansListe(exerciceActuel, true)
                 //si on a terminé
-                if (exerciceActuel >= sequence.length) {
-                    console.log('Termine');
+                if (exerciceActuel >= sequenceLettres.length) {
                     arreterTimer();
                     afficherPage(4);
                     return;
                 }
 
             }
+            timerElement.style.color = 'black';
         }
         
         document.getElementById('timer').textContent = timer;
