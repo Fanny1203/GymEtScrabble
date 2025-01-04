@@ -27,6 +27,22 @@ Une application web interactive pour créer et exécuter des séquences personna
   - Ajout, modification et suppression d'exercices
   - Correspondance mémorisée dans un fichier CSV
 
+## Nouvelles Fonctionnalités
+
+### Améliorations Sonores
+- Ajout de bips sonores générés par p5.js (plus rapide)
+- Nouveau bip à mi-temps de l'exercice
+
+### Gestion Avancée des Exercices
+- Exercices marqués avec `*` sont automatiquement dédoublés (gauche/droite)
+  - Exemple : `*Planche frontale` devient deux exercices
+    1. Planche frontale gauche
+    2. Planche frontale droite
+
+## Conseils
+- Utilisez `*` devant un exercice pour le faire en bilatéral
+- Ajustez les options sonores selon vos préférences
+
 ## Technologies utilisées
 
 - HTML5

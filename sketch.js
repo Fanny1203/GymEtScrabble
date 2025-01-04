@@ -12,6 +12,7 @@ let optionsMusique = false;
 let optionOrdreExercicesAleatoire = false;
 let tempsPauseDepart = 15;
 let tempsPauseEntreExercices = 10;
+let page=1;
 
 // Charger le fichier CSV
 function preload() {
@@ -23,7 +24,14 @@ function preload() {
 }
 
 function setup() {
-    noCanvas();
+    // Create a canvas that's hidden by default
+    let canvas = createCanvas(windowWidth, windowHeight);
+    canvas.position(0, 0);
+    canvas.style('z-index', '-1');
+    canvas.style('position', 'fixed');
+    
+    // Ensure the canvas is behind other elements
+    canvas.parent(document.body);
     
     // Initialize oscillator
     osc = new p5.Oscillator('sine');
@@ -32,6 +40,8 @@ function setup() {
     osc.start();
     osc.stop();
 }
+
+
 
 //pour des bips sans passer par le mp3
 let osc;
@@ -47,6 +57,7 @@ function playBeep() {
 }
 
 function page2() {
+    page=2;
     let lettresInput = document.getElementById('lettres').value.toUpperCase();
     
     // Récupérer les options sonores
@@ -55,13 +66,14 @@ function page2() {
     optionsMusique = document.getElementById('avecMusique').checked;
     optionOrdreExercicesAleatoire = document.getElementById('avecOrdreAleatoire').checked;
 
-    // Créer la séquence aléatoire si demandé
+    // Réinitialiser la séquence de lettres et shuffle si besoin
     sequenceLettres = lettresInput.split('');
     if(optionOrdreExercicesAleatoire) {
         shuffle(sequenceLettres, true);
     }
     
-    // Créer la séquence
+    // Créer la séquence d'exercices
+    sequenceExercices = [];
     for(lettre of sequenceLettres) {
         let instructionCorrespondante = instructions[lettre];
         if(instructionCorrespondante.startsWith('*')) {
@@ -95,6 +107,7 @@ function page2() {
 }
 
 function page3() {
+    page=3;
     afficherPage(3);
 
     // Afficher la liste complète des exercices
@@ -155,7 +168,7 @@ function demarrerTimer() {
                 exerciceDansListe(exerciceActuel);
                 timer = dureeExercice;
                 // afficher l'instruction courante
-                const instruction = instructions[sequenceLettres[exerciceActuel]];
+                const instruction = sequenceExercices[exerciceActuel];
                 document.getElementById('instruction-courante').textContent = instruction;
                 
                 
@@ -166,9 +179,10 @@ function demarrerTimer() {
                 exerciceActuel++;
                 exerciceDansListe(exerciceActuel, true)
                 //si on a terminé
-                if (exerciceActuel >= sequenceLettres.length) {
+                if (exerciceActuel >= sequenceExercices.length) {
                     arreterTimer();
                     afficherPage(4);
+                    page=4;
                     return;
                 }
 
@@ -188,10 +202,14 @@ function arreterTimer() {
     }
 }
 
+
 function afficherPage(numero) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.getElementById(`page${numero}`).classList.add('active');
+
 }
+
+
 
 function retourParametrage() {
     afficherPage(1);
@@ -208,3 +226,4 @@ function shuffle(array, copy) {
     }
     return array;
 }
+
