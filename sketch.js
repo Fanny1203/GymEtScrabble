@@ -24,6 +24,8 @@ function preload() {
 }
 
 function setup() {
+    // mimics the autoplay policy
+    getAudioContext().suspend();
     // Create a canvas that's hidden by default
     let canvas = createCanvas(windowWidth, windowHeight);
     canvas.position(0, 0);
@@ -34,6 +36,7 @@ function setup() {
     canvas.parent(document.body);
     
     // Initialize oscillator
+    userStartAudio(); // Demande explicitement l'autorisation audio
     osc = new p5.Oscillator('sine');
     osc.amp(0.1);  // Set volume
     osc.freq(440); // Standard A4 note frequency
@@ -66,11 +69,9 @@ function page2() {
     optionsMusique = document.getElementById('avecMusique').checked;
     optionOrdreExercicesAleatoire = document.getElementById('avecOrdreAleatoire').checked;
 
-    // Réinitialiser la séquence de lettres et shuffle si besoin
+    // Réinitialiser la séquence de lettres
     sequenceLettres = lettresInput.split('');
-    if(optionOrdreExercicesAleatoire) {
-        shuffle(sequenceLettres, true);
-    }
+    
     
     // Créer la séquence d'exercices
     sequenceExercices = [];
@@ -82,6 +83,10 @@ function page2() {
         } else {
             sequenceExercices.push(instructionCorrespondante);
         }
+    }
+
+    if(optionOrdreExercicesAleatoire) {
+        shuffle(sequenceExercices, true);
     }
 
 
@@ -227,3 +232,6 @@ function shuffle(array, copy) {
     return array;
 }
 
+function mousePressed() {
+    userStartAudio();
+  }
